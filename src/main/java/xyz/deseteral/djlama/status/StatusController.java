@@ -1,4 +1,4 @@
-package xyz.deseteral.djlama;
+package xyz.deseteral.djlama.status;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
