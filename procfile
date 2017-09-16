@@ -1,0 +1,1 @@
+web: java -Dserver.port=$PORT -Dspring.data.mongodb.host=$MONGO_HOST -Dspring.data.mongodb.port=$MONGO_PORT -Dspring.data.mongodb.username=$MONGO_USERNAME -Dspring.data.mongodb.password=$MONGO_PASSWORD $JAVA_OPTS -jar build/libs/*.jar
