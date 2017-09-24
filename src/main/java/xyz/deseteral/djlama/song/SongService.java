@@ -58,4 +58,8 @@ public class SongService {
 
         repository.delete(id);
     }
+
+    public long getCount() {
+        return repository.count();
+    }
 }
