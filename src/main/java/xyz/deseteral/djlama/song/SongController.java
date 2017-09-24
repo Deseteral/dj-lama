@@ -10,6 +10,7 @@ import java.net.URI;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.accepted;
 import static org.springframework.http.ResponseEntity.created;
+import static org.springframework.http.ResponseEntity.noContent;
 
 @RestController
 @RequestMapping("/songs")
@@ -59,5 +60,15 @@ public class SongController {
         );
 
         return accepted().body(updatedCategory);
+    }
+
+    @RequestMapping(
+        method = RequestMethod.DELETE,
+        value = "/{id}"
+    )
+    public ResponseEntity remove(@PathVariable(value = "id") String id) {
+        service.remove(id);
+
+        return noContent().build();
     }
 }

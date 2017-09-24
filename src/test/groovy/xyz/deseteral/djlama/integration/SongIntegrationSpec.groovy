@@ -26,10 +26,7 @@ class SongIntegrationSpec extends IntegrationSpec {
         then:
         postResponse.statusCode == HttpStatus.CREATED
 
-        and: "get results"
-        def getRequest = RequestEntity.get(localURI('/songs'))
-            .accept(MediaType.APPLICATION_JSON);
-
+        and:
         when:
         def getResponse = restTemplate.getForEntity(localURI('/songs'), Song[])
 
@@ -120,6 +117,41 @@ class SongIntegrationSpec extends IntegrationSpec {
         }
     }
 
+    def "should remove song"() {
+        setup:
+        def song = [
+            title: "song title",
+            artist: "song artist",
+            youtubeId: "youtube-id",
+            playCount: 12
+        ]
+
+        def postRequest = RequestEntity.post(localURI('/songs'))
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(song)
+
+        def postResponse = restTemplate.exchange(postRequest, Void)
+
+        def location = postResponse.headers['Location'][0]
+
+        def deleteRequest = RequestEntity.delete(localURI(location)).build()
+
+        when:
+        def deleteResponse = restTemplate.exchange(deleteRequest, Void)
+
+        then:
+        deleteResponse.statusCode == HttpStatus.NO_CONTENT
+
+        and:
+        def getResponse = restTemplate.getForEntity(localURI(location), Error)
+
+        Error e = (Error) getResponse.body
+        with (e) {
+            status == 404
+            key == "RESOURCE_NOT_FOUND"
+        }
+    }
+
     def "should return 404 on accessing not existing resource"() {
         when:
         def getResponse = restTemplate.getForEntity(localURI('/songs/fake-id'), Error)
@@ -129,8 +161,8 @@ class SongIntegrationSpec extends IntegrationSpec {
         getResponse.statusCode == HttpStatus.NOT_FOUND
 
         with (e) {
-            e.status == 404
-            e.key == "RESOURCE_NOT_FOUND"
+            status == 404
+            key == "RESOURCE_NOT_FOUND"
         }
     }
 
@@ -155,8 +187,25 @@ class SongIntegrationSpec extends IntegrationSpec {
         putResponse.statusCode == HttpStatus.NOT_FOUND
 
         with (e) {
-            e.status == 404
-            e.key == "RESOURCE_NOT_FOUND"
+            status == 404
+            key == "RESOURCE_NOT_FOUND"
+        }
+    }
+
+    def "should return 404 on removing not existing resource"() {
+        given:
+        def deleteRequest = RequestEntity.delete(localURI('/songs/fake-id')).build()
+
+        when:
+        def deleteResponse = restTemplate.exchange(deleteRequest, Error)
+
+        then:
+        Error e = (Error) deleteResponse.body
+        deleteResponse.statusCode == HttpStatus.NOT_FOUND
+
+        with (e) {
+            status == 404
+            key == "RESOURCE_NOT_FOUND"
         }
     }
 }
