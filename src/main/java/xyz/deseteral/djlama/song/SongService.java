@@ -31,7 +31,9 @@ public class SongService {
 
     Song add(Song song) {
         return repository.save(
-            Song.builder(song).build()
+            Song.builder(song)
+                .withPlayCount(song.getPlayCount() == null ? 0 : song.getPlayCount())
+                .build()
         );
     }
 
@@ -45,5 +47,15 @@ public class SongService {
         return repository.save(
             Song.builder(song).build()
         );
+    }
+
+    void remove(String id) {
+        if (repository.findOne(id) == null) {
+            throw new ResourceNotFoundException(
+                String.format("Song with ID %s does not exist", id)
+            );
+        }
+
+        repository.delete(id);
     }
 }

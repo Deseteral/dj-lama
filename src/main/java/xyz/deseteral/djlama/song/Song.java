@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 
 public class Song {
     @Id
+    @JsonProperty("id")
     private String id;
     private String title;
     private String artist;
@@ -68,6 +69,11 @@ public class Song {
 
         Builder withId(String id) {
             this.id = id;
+            return this;
+        }
+
+        Builder withPlayCount(int playCount) {
+            this.playCount = playCount;
             return this;
         }
 
