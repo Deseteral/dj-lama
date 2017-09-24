@@ -21,6 +21,7 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 
@@ -28,6 +29,8 @@ dependencies {
     compile "org.codehaus.groovy:groovy-all:2.4.10"
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+    compile('com.sedmelluq:lavaplayer:1.2.36')
+    compile('net.dv8tion:JDA:3.0.0_171')
     // compile('org.springframework.boot:spring-boot-starter-websocket')
     // compile('org.springframework.boot:spring-boot-starter-security')
 
