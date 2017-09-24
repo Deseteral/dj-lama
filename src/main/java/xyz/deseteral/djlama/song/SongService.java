@@ -31,7 +31,9 @@ public class SongService {
 
     Song add(Song song) {
         return repository.save(
-            Song.builder(song).build()
+            Song.builder(song)
+                .withPlayCount(song.getPlayCount() == null ? 0 : song.getPlayCount())
+                .build()
         );
     }
 

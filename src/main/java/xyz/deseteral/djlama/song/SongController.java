@@ -12,7 +12,7 @@ import static org.springframework.http.ResponseEntity.accepted;
 import static org.springframework.http.ResponseEntity.created;
 
 @RestController
-@RequestMapping("/song")
+@RequestMapping("/songs")
 public class SongController {
     private final SongService service;
 
@@ -21,29 +21,41 @@ public class SongController {
         this.service = service;
     }
 
-    @GetMapping
-    public Iterable<Song> listAll() {
-        return service.getAll();
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/{id}"
+    )
     public Song findOne(@PathVariable(value = "id") String id) {
         return service.getById(id);
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE)
+    @GetMapping
+    public Iterable<Song> findAll() {
+        return service.getAll();
+    }
+
+    @RequestMapping(
+        method = RequestMethod.POST,
+        consumes = APPLICATION_JSON_VALUE,
+        produces = APPLICATION_JSON_VALUE
+    )
     public ResponseEntity create(@Valid @RequestBody Song song) {
         Song createdSong = service.add(song);
         return created(
-            URI.create("/song/" + createdSong.getId())
-        ).body(createdSong);
+            URI.create("/songs/" + createdSong.getId())
+        ).body(Song.builder(createdSong).withId(createdSong.getId()).build());
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/{id}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @RequestMapping(
+        method = RequestMethod.PUT,
+        value = "/{id}",
+        consumes = APPLICATION_JSON_VALUE,
+        produces = APPLICATION_JSON_VALUE
+    )
     public ResponseEntity update(@PathVariable(value = "id") String id,
-                                 @Valid @RequestBody Song category) {
+                                 @Valid @RequestBody Song song) {
         Song updatedCategory = service.update(
-            Song.builder(category).withId(id).build()
+            Song.builder(song).withId(id).build()
         );
 
         return accepted().body(updatedCategory);

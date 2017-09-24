@@ -71,6 +71,11 @@ public class Song {
             return this;
         }
 
+        Builder withPlayCount(int playCount) {
+            this.playCount = playCount;
+            return this;
+        }
+
         Song build() {
             return new Song(id, title, artist, youtubeId, playCount);
         }

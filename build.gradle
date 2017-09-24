@@ -34,5 +34,6 @@ dependencies {
     testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+    testCompile('org.spockframework:spock-spring:1.1-groovy-2.4')
 //    testCompile('org.springframework.security:spring-security-test')
 }
