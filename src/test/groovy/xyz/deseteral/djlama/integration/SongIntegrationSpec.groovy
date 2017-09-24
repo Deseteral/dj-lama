@@ -25,6 +25,7 @@ class SongIntegrationSpec extends IntegrationSpec {
 
         then:
         postResponse.statusCode == HttpStatus.CREATED
+        def location = postResponse.headers['Location'][0]
 
         and:
         when:
@@ -34,6 +35,7 @@ class SongIntegrationSpec extends IntegrationSpec {
         Song[] songs = (Song[]) getResponse.body
         songs.length == 1
         with (songs[0]) {
+            id == getIdFromLocation(location)
             title == "song title"
             artist == "song artist"
             youtubeId == "youtube-id"
@@ -64,6 +66,7 @@ class SongIntegrationSpec extends IntegrationSpec {
         then:
         Song responseSong = getResponse.body
         with (responseSong) {
+            id == getIdFromLocation(location)
             title == "song title"
             artist == "song artist"
             youtubeId == "youtube-id"
@@ -89,6 +92,7 @@ class SongIntegrationSpec extends IntegrationSpec {
         def location = postResponse.headers['Location'][0]
 
         def updateSong = [
+            id: getIdFromLocation(location),
             title: "updated song title",
             artist: "new song artist",
             youtubeId: "fresh-youtube-id",
@@ -110,6 +114,7 @@ class SongIntegrationSpec extends IntegrationSpec {
 
         Song responseSong = getResponse.body
         with (responseSong) {
+            id == getIdFromLocation(location)
             title == "updated song title"
             artist == "new song artist"
             youtubeId == "fresh-youtube-id"
@@ -169,6 +174,7 @@ class SongIntegrationSpec extends IntegrationSpec {
     def "should return 404 on updating not existing resource"() {
         given:
         def updateSong = [
+            id: "fake-id",
             title: "updated song title",
             artist: "new song artist",
             youtubeId: "fresh-youtube-id",
@@ -207,5 +213,9 @@ class SongIntegrationSpec extends IntegrationSpec {
             status == 404
             key == "RESOURCE_NOT_FOUND"
         }
+    }
+
+    def getIdFromLocation(String location) {
+        return location.replace("/songs/", "")
     }
 }
