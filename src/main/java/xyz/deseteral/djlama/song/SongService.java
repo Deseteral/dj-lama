@@ -17,7 +17,7 @@ public class SongService {
         return repository.findAll();
     }
 
-    Song getById(String id) {
+    public Song getById(String id) {
         Song song = repository.findOne(id);
 
         if (song == null) {

@@ -28,7 +28,7 @@ public class Song {
         this.playCount = playCount;
     }
 
-    String getId() {
+    public String getId() {
         return id;
     }
 

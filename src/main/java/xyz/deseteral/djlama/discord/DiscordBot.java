@@ -15,9 +15,10 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.managers.AudioManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import xyz.deseteral.djlama.play.PlayService;
+import xyz.deseteral.djlama.queue.Queue;
 
 import javax.security.auth.login.LoginException;
 
@@ -28,15 +29,21 @@ public class DiscordBot {
 
     private JDA api;
 
+    private Queue queue;
+
     private AudioPlayerManager playerManager;
     private AudioPlayer audioPlayer;
+    private TrackScheduler trackScheduler;
 
+    @Autowired
     public DiscordBot(
         @Value("${DISCORD_TOKEN}") String token,
-        @Value("${DISCORD_CHANNEL_NAME}") String channelName
+        @Value("${DISCORD_CHANNEL_NAME}") String channelName,
+        Queue queue
     ) {
         this.token = token;
         this.channelName = channelName;
+        this.queue = queue;
     }
 
     private void connect() throws LoginException, InterruptedException, RateLimitedException {
@@ -58,11 +65,11 @@ public class DiscordBot {
         audioPlayer = playerManager.createPlayer();
         audioManager.setSendingHandler(new AudioPlayerSendHandler(audioPlayer));
 
-        TrackScheduler trackScheduler = new TrackScheduler();
+        trackScheduler = new TrackScheduler(queue, audioPlayer, playerManager);
         audioPlayer.addListener(trackScheduler);
     }
 
-    public void play(String id) {
+    public void play() {
         if (api == null) {
             try {
                 connect();
@@ -72,22 +79,6 @@ public class DiscordBot {
             }
         }
 
-        playerManager.loadItem(id, new AudioLoadResultHandler() {
-            @Override
-            public void trackLoaded(AudioTrack track) {
-                audioPlayer.playTrack(track);
-            }
-
-            @Override
-            public void playlistLoaded(AudioPlaylist playlist) { }
-
-            @Override
-            public void noMatches() { }
-
-            @Override
-            public void loadFailed(FriendlyException throwable) {
-                throwable.printStackTrace();
-            }
-        });
+        trackScheduler.playNext();
     }
 }
