@@ -79,6 +79,8 @@ public class DiscordBot {
             }
         }
 
-        trackScheduler.playNext();
+        if (audioPlayer.getPlayingTrack() == null) {
+            trackScheduler.playNext();
+        }
     }
 }
