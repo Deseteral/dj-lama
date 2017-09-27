@@ -15,10 +15,8 @@ public class TrackScheduler extends AudioEventAdapter {
     private Queue queue;
     private AudioPlayer player;
     private AudioPlayerManager playerManager;
-    private DiscordBot discordBot;
 
-    TrackScheduler(DiscordBot discordBot, Queue queue, AudioPlayer player, AudioPlayerManager playerManager) {
-        this.discordBot = discordBot;
+    TrackScheduler(Queue queue, AudioPlayer player, AudioPlayerManager playerManager) {
         this.queue = queue;
         this.player = player;
         this.playerManager = playerManager;
@@ -27,7 +25,6 @@ public class TrackScheduler extends AudioEventAdapter {
     void playNext() {
         Song s = queue.pop();
         if (s == null) {
-            discordBot.disconnect();
             return;
         }
 

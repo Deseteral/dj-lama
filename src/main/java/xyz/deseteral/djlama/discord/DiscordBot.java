@@ -1,13 +1,9 @@
 package xyz.deseteral.djlama.discord;
 
-import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
-import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
-import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -66,7 +62,7 @@ public class DiscordBot {
         audioPlayer = playerManager.createPlayer();
         audioManager.setSendingHandler(new AudioPlayerSendHandler(audioPlayer));
 
-        trackScheduler = new TrackScheduler(this, queue, audioPlayer, playerManager);
+        trackScheduler = new TrackScheduler(queue, audioPlayer, playerManager);
         audioPlayer.addListener(trackScheduler);
     }
 
@@ -83,11 +79,5 @@ public class DiscordBot {
         if (audioPlayer.getPlayingTrack() == null) {
             trackScheduler.playNext();
         }
-    }
-
-    void disconnect() {
-        api.shutdown(true);
-
-        api = null;
     }
 }
