@@ -14,7 +14,7 @@ public class Queue {
         this.songs = new ArrayList<>();
     }
 
-    public void push(Song s) {
+    void push(Song s) {
         songs.add(s);
     }
 

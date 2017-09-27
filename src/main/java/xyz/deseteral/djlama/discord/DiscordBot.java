@@ -65,7 +65,7 @@ public class DiscordBot {
         audioPlayer = playerManager.createPlayer();
         audioManager.setSendingHandler(new AudioPlayerSendHandler(audioPlayer));
 
-        trackScheduler = new TrackScheduler(queue, audioPlayer, playerManager);
+        trackScheduler = new TrackScheduler(this, queue, audioPlayer, playerManager);
         audioPlayer.addListener(trackScheduler);
     }
 
@@ -82,5 +82,10 @@ public class DiscordBot {
         if (audioPlayer.getPlayingTrack() == null) {
             trackScheduler.playNext();
         }
+    }
+
+    void disconnect() {
+        api.shutdown(true);
+        api = null;
     }
 }
