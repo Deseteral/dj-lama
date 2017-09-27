@@ -23,12 +23,12 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     void playNext() {
-        Song s = queue.pop();
-        if (s == null) {
+        Song song = queue.pop();
+        if (song == null) {
             return;
         }
 
-        playerManager.loadItem(s.getYoutubeId(), new AudioLoadResultHandler() {
+        playerManager.loadItem(song.getYoutubeId(), new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
                 player.playTrack(track);
