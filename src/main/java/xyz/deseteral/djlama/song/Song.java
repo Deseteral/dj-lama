@@ -6,7 +6,6 @@ import org.springframework.data.annotation.Id;
 
 public class Song {
     @Id
-    @JsonProperty("id")
     private String id;
     private String title;
     private String artist;
@@ -28,7 +27,7 @@ public class Song {
         this.playCount = playCount;
     }
 
-    String getId() {
+    public String getId() {
         return id;
     }
 
