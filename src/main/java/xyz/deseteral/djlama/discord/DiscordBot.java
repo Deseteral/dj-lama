@@ -33,6 +33,8 @@ public class DiscordBot {
 
     private AudioPlayerManager playerManager;
     private AudioPlayer audioPlayer;
+    private AudioManager audioManager;
+
     private TrackScheduler trackScheduler;
 
     @Autowired
@@ -59,7 +61,7 @@ public class DiscordBot {
         playerManager = new DefaultAudioPlayerManager();
         AudioSourceManagers.registerRemoteSources(playerManager);
 
-        final AudioManager audioManager = guild.getAudioManager();
+        audioManager = guild.getAudioManager();
         audioManager.openAudioConnection(voiceChannel);
 
         audioPlayer = playerManager.createPlayer();
@@ -85,7 +87,11 @@ public class DiscordBot {
     }
 
     void disconnect() {
+        audioPlayer.destroy();
+        audioManager.closeAudioConnection();
+        playerManager.shutdown();
         api.shutdown(true);
+
         api = null;
     }
 }
