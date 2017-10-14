@@ -1,20 +1,21 @@
 package xyz.deseteral.djlama.status;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import xyz.deseteral.djlama.song.Song;
 
 class Status {
     @JsonProperty("songCount")
     private Long songCount;
 
-    @JsonProperty("onAir")
-    private Boolean onAir;
+    @JsonProperty("currentlyPlaying")
+    private Song currentlyPlaying;
 
     Status(
         Long songCount,
-        Boolean onAir
+        Song currentlyPlaying
     ) {
         this.songCount = songCount;
-        this.onAir = onAir;
+        this.currentlyPlaying = currentlyPlaying;
     }
 
     static Builder builder() {
@@ -23,11 +24,11 @@ class Status {
 
     static final class Builder {
         private Long songCount;
-        private Boolean onAir;
+        private Song currentlyPlaying;
 
         private Builder() {
             this.songCount = 0L;
-            this.onAir = false;
+            this.currentlyPlaying = null;
         }
 
         Builder withSongCount(long songCount) {
@@ -35,13 +36,13 @@ class Status {
             return this;
         }
 
-        Builder isOnAir(boolean onAir) {
-            this.onAir = onAir;
+        Builder withCurrentlyPlaying(Song song) {
+            this.currentlyPlaying = song;
             return this;
         }
 
         Status build() {
-            return new Status(songCount, onAir);
+            return new Status(songCount, currentlyPlaying);
         }
     }
 }

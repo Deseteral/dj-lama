@@ -15,6 +15,7 @@ public class TrackScheduler extends AudioEventAdapter {
     private Queue queue;
     private AudioPlayer player;
     private AudioPlayerManager playerManager;
+    private Song currentlyPlaying;
 
     TrackScheduler(Queue queue, AudioPlayer player, AudioPlayerManager playerManager) {
         this.queue = queue;
@@ -23,12 +24,12 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     void playNext() {
-        Song song = queue.pop();
-        if (song == null) {
+        currentlyPlaying = queue.pop();
+        if (currentlyPlaying == null) {
             return;
         }
 
-        playerManager.loadItem(song.getYoutubeId(), new AudioLoadResultHandler() {
+        playerManager.loadItem(currentlyPlaying.getYoutubeId(), new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
                 player.playTrack(track);
@@ -43,6 +44,10 @@ public class TrackScheduler extends AudioEventAdapter {
             @Override
             public void loadFailed(FriendlyException throwable) { }
         });
+    }
+
+    Song getCurrentlyPlaying() {
+        return currentlyPlaying;
     }
 
     @Override
