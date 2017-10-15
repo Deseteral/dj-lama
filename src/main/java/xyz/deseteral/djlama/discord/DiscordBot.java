@@ -19,8 +19,6 @@ import xyz.deseteral.djlama.song.Song;
 
 import javax.security.auth.login.LoginException;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Component
 public class DiscordBot {

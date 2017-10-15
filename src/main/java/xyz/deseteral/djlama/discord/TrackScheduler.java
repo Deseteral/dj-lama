@@ -8,13 +8,10 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
-import org.apache.tomcat.jni.Local;
 import xyz.deseteral.djlama.queue.Queue;
 import xyz.deseteral.djlama.song.Song;
 
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class TrackScheduler extends AudioEventAdapter {
     private Queue queue;

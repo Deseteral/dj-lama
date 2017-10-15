@@ -8,9 +8,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.ResponseEntity.accepted;
-import static org.springframework.http.ResponseEntity.created;
-import static org.springframework.http.ResponseEntity.noContent;
+import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequestMapping("/songs")
