@@ -18,6 +18,9 @@ import xyz.deseteral.djlama.queue.Queue;
 import xyz.deseteral.djlama.song.Song;
 
 import javax.security.auth.login.LoginException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
 public class DiscordBot {
@@ -88,5 +91,17 @@ public class DiscordBot {
         }
 
         return null;
+    }
+
+    public Instant getStartTime() {
+        if (trackScheduler != null) {
+            return trackScheduler.getStartTime();
+        }
+
+        return null;
+    }
+
+    public Queue getQueue() {
+        return queue;
     }
 }

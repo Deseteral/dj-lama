@@ -8,14 +8,20 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
+import org.apache.tomcat.jni.Local;
 import xyz.deseteral.djlama.queue.Queue;
 import xyz.deseteral.djlama.song.Song;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class TrackScheduler extends AudioEventAdapter {
     private Queue queue;
     private AudioPlayer player;
     private AudioPlayerManager playerManager;
     private Song currentlyPlaying;
+    private Instant startTime = null;
 
     TrackScheduler(Queue queue, AudioPlayer player, AudioPlayerManager playerManager) {
         this.queue = queue;
@@ -33,6 +39,10 @@ public class TrackScheduler extends AudioEventAdapter {
             @Override
             public void trackLoaded(AudioTrack track) {
                 player.playTrack(track);
+
+                if (startTime == null) {
+                    startTime = Instant.now();
+                }
             }
 
             @Override
@@ -48,6 +58,10 @@ public class TrackScheduler extends AudioEventAdapter {
 
     Song getCurrentlyPlaying() {
         return currentlyPlaying;
+    }
+
+    Instant getStartTime() {
+        return startTime;
     }
 
     @Override

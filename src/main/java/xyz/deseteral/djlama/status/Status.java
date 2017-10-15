@@ -7,15 +7,25 @@ class Status {
     @JsonProperty("songCount")
     private Long songCount;
 
+    @JsonProperty("queueLength")
+    private Integer queueLength;
+
     @JsonProperty("currentlyPlaying")
     private Song currentlyPlaying;
 
+    @JsonProperty("onAirSince")
+    private String onAirSince;
+
     Status(
         Long songCount,
-        Song currentlyPlaying
+        Integer queueLength,
+        Song currentlyPlaying,
+        String onAirSince
     ) {
         this.songCount = songCount;
+        this.queueLength = queueLength;
         this.currentlyPlaying = currentlyPlaying;
+        this.onAirSince = onAirSince;
     }
 
     static Builder builder() {
@@ -24,15 +34,24 @@ class Status {
 
     static final class Builder {
         private Long songCount;
+        private Integer queueLength;
         private Song currentlyPlaying;
+        private String onAirSince;
 
         private Builder() {
             this.songCount = 0L;
+            this.queueLength = 0;
             this.currentlyPlaying = null;
+            this.onAirSince = null;
         }
 
         Builder withSongCount(long songCount) {
             this.songCount = songCount;
+            return this;
+        }
+
+        Builder withQueueLength(int queueLength) {
+            this.queueLength = queueLength;
             return this;
         }
 
@@ -41,8 +60,13 @@ class Status {
             return this;
         }
 
+        Builder withOnAirSince(String onAirSince) {
+            this.onAirSince = onAirSince;
+            return this;
+        }
+
         Status build() {
-            return new Status(songCount, currentlyPlaying);
+            return new Status(songCount, queueLength, currentlyPlaying, onAirSince);
         }
     }
 }
