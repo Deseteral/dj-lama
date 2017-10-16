@@ -11,10 +11,14 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import xyz.deseteral.djlama.queue.Queue;
 import xyz.deseteral.djlama.song.Song;
 
+import java.time.Instant;
+
 public class TrackScheduler extends AudioEventAdapter {
     private Queue queue;
     private AudioPlayer player;
     private AudioPlayerManager playerManager;
+    private Song currentlyPlaying;
+    private Instant startTime = null;
 
     TrackScheduler(Queue queue, AudioPlayer player, AudioPlayerManager playerManager) {
         this.queue = queue;
@@ -23,15 +27,19 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     void playNext() {
-        Song song = queue.pop();
-        if (song == null) {
+        currentlyPlaying = queue.pop();
+        if (currentlyPlaying == null) {
             return;
         }
 
-        playerManager.loadItem(song.getYoutubeId(), new AudioLoadResultHandler() {
+        playerManager.loadItem(currentlyPlaying.getYoutubeId(), new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
                 player.playTrack(track);
+
+                if (startTime == null) {
+                    startTime = Instant.now();
+                }
             }
 
             @Override
@@ -43,6 +51,14 @@ public class TrackScheduler extends AudioEventAdapter {
             @Override
             public void loadFailed(FriendlyException throwable) { }
         });
+    }
+
+    Song getCurrentlyPlaying() {
+        return currentlyPlaying;
+    }
+
+    Instant getStartTime() {
+        return startTime;
     }
 
     @Override

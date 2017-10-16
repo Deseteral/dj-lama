@@ -15,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import xyz.deseteral.djlama.queue.Queue;
+import xyz.deseteral.djlama.song.Song;
 
 import javax.security.auth.login.LoginException;
+import java.time.Instant;
 
 @Component
 public class DiscordBot {
@@ -79,5 +81,25 @@ public class DiscordBot {
         if (audioPlayer.getPlayingTrack() == null) {
             trackScheduler.playNext();
         }
+    }
+
+    public Song getCurrentlyPlaying() {
+        if (audioPlayer != null && audioPlayer.getPlayingTrack() != null && trackScheduler != null) {
+            return trackScheduler.getCurrentlyPlaying();
+        }
+
+        return null;
+    }
+
+    public Instant getStartTime() {
+        if (trackScheduler != null) {
+            return trackScheduler.getStartTime();
+        }
+
+        return null;
+    }
+
+    public Queue getQueue() {
+        return queue;
     }
 }

@@ -28,4 +28,8 @@ public class Queue {
 
         return value;
     }
+
+    public int getLength() {
+        return songs.size();
+    }
 }
