@@ -2,16 +2,14 @@ package xyz.deseteral.djlama.queue;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xyz.deseteral.djlama.discord.DiscordBot;
 import xyz.deseteral.djlama.song.Song;
 import xyz.deseteral.djlama.song.SongService;
 
 import static org.springframework.http.ResponseEntity.ok;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/queue")
 public class QueueController {

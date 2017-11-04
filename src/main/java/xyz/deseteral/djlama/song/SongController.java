@@ -10,6 +10,7 @@ import java.net.URI;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.http.ResponseEntity.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/songs")
 public class SongController {
