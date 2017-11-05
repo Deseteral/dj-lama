@@ -24,6 +24,11 @@ public class QueueController {
         this.discordBot = discordBot;
     }
 
+    @GetMapping
+    public Iterable<Song> findAll() {
+        return queue.getSongs();
+    }
+
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/{id}"
