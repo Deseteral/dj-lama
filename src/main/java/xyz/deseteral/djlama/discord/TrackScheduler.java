@@ -10,18 +10,21 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import xyz.deseteral.djlama.queue.Queue;
 import xyz.deseteral.djlama.song.Song;
+import xyz.deseteral.djlama.song.SongService;
 
 import java.time.Instant;
 
 public class TrackScheduler extends AudioEventAdapter {
     private Queue queue;
+    private SongService songService;
     private AudioPlayer player;
     private AudioPlayerManager playerManager;
     private Song currentlyPlaying;
     private Instant startTime = null;
 
-    TrackScheduler(Queue queue, AudioPlayer player, AudioPlayerManager playerManager) {
+    TrackScheduler(Queue queue, SongService songService, AudioPlayer player, AudioPlayerManager playerManager) {
         this.queue = queue;
+        this.songService = songService;
         this.player = player;
         this.playerManager = playerManager;
     }
@@ -36,6 +39,8 @@ public class TrackScheduler extends AudioEventAdapter {
             @Override
             public void trackLoaded(AudioTrack track) {
                 player.playTrack(track);
+
+                songService.markAsPlayed(currentlyPlaying.getId());
 
                 if (startTime == null) {
                     startTime = Instant.now();

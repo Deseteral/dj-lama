@@ -29,6 +29,10 @@ public class Queue {
         return value;
     }
 
+    public List<Song> getSongs() {
+        return songs;
+    }
+
     public int getLength() {
         return songs.size();
     }

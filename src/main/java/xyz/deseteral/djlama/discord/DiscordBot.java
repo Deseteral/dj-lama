@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import xyz.deseteral.djlama.queue.Queue;
 import xyz.deseteral.djlama.song.Song;
+import xyz.deseteral.djlama.song.SongService;
 
 import javax.security.auth.login.LoginException;
 import java.time.Instant;
@@ -28,6 +29,7 @@ public class DiscordBot {
     private JDA api;
 
     private Queue queue;
+    private SongService songService;
 
     private AudioPlayerManager playerManager;
     private AudioPlayer audioPlayer;
@@ -38,11 +40,13 @@ public class DiscordBot {
     public DiscordBot(
         @Value("${DISCORD_TOKEN}") String token,
         @Value("${DISCORD_CHANNEL_NAME}") String channelName,
-        Queue queue
+        Queue queue,
+        SongService songService
     ) {
         this.token = token;
         this.channelName = channelName;
         this.queue = queue;
+        this.songService = songService;
     }
 
     private void connect() throws LoginException, InterruptedException, RateLimitedException {
@@ -64,7 +68,7 @@ public class DiscordBot {
         audioPlayer = playerManager.createPlayer();
         audioManager.setSendingHandler(new AudioPlayerSendHandler(audioPlayer));
 
-        trackScheduler = new TrackScheduler(queue, audioPlayer, playerManager);
+        trackScheduler = new TrackScheduler(queue, songService, audioPlayer, playerManager);
         audioPlayer.addListener(trackScheduler);
     }
 

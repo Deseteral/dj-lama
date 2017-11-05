@@ -62,4 +62,21 @@ public class SongService {
     public long getCount() {
         return repository.count();
     }
+
+    public void markAsPlayed(String id) {
+        final Song foundSong = repository.findOne(id);
+
+        if (foundSong == null) {
+            throw new ResourceNotFoundException(
+                String.format("Song with ID %s does not exist", id)
+            );
+        }
+
+        final Song updatedSong = Song
+            .builder(foundSong)
+            .withPlayCount(foundSong.getPlayCount() + 1)
+            .build();
+
+        this.update(updatedSong);
+    }
 }
