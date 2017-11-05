@@ -49,7 +49,8 @@ public class SongController {
     @RequestMapping(
         method = RequestMethod.POST,
         consumes = APPLICATION_JSON_VALUE,
-        produces = APPLICATION_JSON_VALUE
+        produces = APPLICATION_JSON_VALUE,
+        value = "/legacy"
     )
     public ResponseEntity legacy(@Valid @RequestBody Song song) {
         Song createdSong = service.addLegacy(song);
