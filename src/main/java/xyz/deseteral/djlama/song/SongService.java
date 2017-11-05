@@ -37,6 +37,14 @@ public class SongService {
         );
     }
 
+    Song addLegacy(Song song) {
+        return repository.save(
+            Song.builder(song)
+                .withPlayCount(song.getPlayCount() == null ? 0 : song.getPlayCount())
+                .build()
+        );
+    }
+
     Song update(Song song) {
         final Song foundSong = repository.findOne(song.getId());
 
