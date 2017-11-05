@@ -32,20 +32,34 @@ public class SongService {
     Song add(Song song) {
         return repository.save(
             Song.builder(song)
+                .withPlayCount(0)
+                .build()
+        );
+    }
+
+    Song addLegacy(Song song) {
+        return repository.save(
+            Song.builder(song)
                 .withPlayCount(song.getPlayCount() == null ? 0 : song.getPlayCount())
                 .build()
         );
     }
 
     Song update(Song song) {
-        if (repository.findOne(song.getId()) == null) {
+        final Song foundSong = repository.findOne(song.getId());
+
+        if (foundSong == null) {
             throw new ResourceNotFoundException(
                 String.format("Song with ID %s does not exist", song.getId())
             );
         }
 
         return repository.save(
-            Song.builder(song).build()
+            Song.builder(foundSong)
+                .withTitle(song.getTitle())
+                .withArtist(song.getArtist())
+                .withYoutubeId(song.getYoutubeId())
+                .build()
         );
     }
 

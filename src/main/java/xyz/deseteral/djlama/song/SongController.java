@@ -47,6 +47,18 @@ public class SongController {
     }
 
     @RequestMapping(
+        method = RequestMethod.POST,
+        consumes = APPLICATION_JSON_VALUE,
+        produces = APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity legacy(@Valid @RequestBody Song song) {
+        Song createdSong = service.addLegacy(song);
+        return created(
+            URI.create("/songs/" + createdSong.getId())
+        ).body(Song.builder(createdSong).withId(createdSong.getId()).build());
+    }
+
+    @RequestMapping(
         method = RequestMethod.PUT,
         value = "/{id}",
         consumes = APPLICATION_JSON_VALUE,
