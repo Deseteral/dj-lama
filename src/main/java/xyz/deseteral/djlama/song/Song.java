@@ -71,6 +71,21 @@ public class Song {
             return this;
         }
 
+        Builder withTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        Builder withArtist(String artist) {
+            this.artist = artist;
+            return this;
+        }
+
+        Builder withYoutubeId(String youtubeId) {
+            this.youtubeId = youtubeId;
+            return this;
+        }
+
         Builder withPlayCount(int playCount) {
             this.playCount = playCount;
             return this;
