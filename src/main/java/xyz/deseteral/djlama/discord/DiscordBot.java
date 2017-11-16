@@ -103,6 +103,13 @@ public class DiscordBot {
         return null;
     }
 
+    public void skip() {
+        if (trackScheduler != null) {
+            audioPlayer.stopTrack();
+            trackScheduler.playNext();
+        }
+    }
+
     public Queue getQueue() {
         return queue;
     }
