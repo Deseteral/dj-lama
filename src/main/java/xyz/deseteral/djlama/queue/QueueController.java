@@ -31,6 +31,14 @@ public class QueueController {
 
     @RequestMapping(
         method = RequestMethod.POST,
+        value = "/skip"
+    )
+    public void skip() {
+        discordBot.skip();
+    }
+
+    @RequestMapping(
+        method = RequestMethod.POST,
         value = "/{id}"
     )
     public ResponseEntity push(@PathVariable(value = "id") String id) {
