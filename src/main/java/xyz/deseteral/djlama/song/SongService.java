@@ -59,6 +59,7 @@ public class SongService {
                 .withTitle(song.getTitle())
                 .withArtist(song.getArtist())
                 .withYoutubeId(song.getYoutubeId())
+                .withPlayCount(song.getPlayCount())
                 .build()
         );
     }
