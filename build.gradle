@@ -31,7 +31,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-mongodb')
     compile('com.sedmelluq:lavaplayer:1.2.42')
     compile('net.dv8tion:JDA:3.0.0_171')
-    // compile('org.springframework.boot:spring-boot-starter-websocket')
+     compile('org.springframework.boot:spring-boot-starter-websocket')
     // compile('org.springframework.boot:spring-boot-starter-security')
 
     testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
