@@ -36,6 +36,9 @@ public class DiscordBot {
 
     private TrackScheduler trackScheduler;
 
+    private static final int FADE_INTERVAL = 5;
+    private static final int FADE_THRESHOLD = 10;
+
     @Autowired
     public DiscordBot(
         @Value("${DISCORD_TOKEN}") String token,
@@ -108,6 +111,31 @@ public class DiscordBot {
             audioPlayer.stopTrack();
             trackScheduler.playNext();
         }
+    }
+
+    public void fadeOut() {
+        fadeTo(FADE_THRESHOLD, -1);
+    }
+
+    public void fadeIn() {
+        fadeTo(100, +1);
+    }
+
+    private void fadeTo(int targetVolume, int deltaVolume) {
+        if (audioPlayer == null) {
+            return;
+        }
+
+        new Thread(() -> {
+            while (audioPlayer.getVolume() != targetVolume) {
+                audioPlayer.setVolume(audioPlayer.getVolume() + deltaVolume);
+                try {
+                    Thread.sleep(FADE_INTERVAL);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     public Queue getQueue() {
