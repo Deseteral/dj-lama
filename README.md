@@ -4,3 +4,6 @@
 User driven radio station - Spring service.
 
 For corresponding frontend app look at [dj-lama-frontend](https://github.com/Deseteral/dj-lama-frontend).
+
+## License
+This project is licensed under the [MIT license](LICENSE).
